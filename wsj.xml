@@ -1,2 +1,2 @@
-G = gg.getFile():match("[^/]+$")
-os.remove(G)
+gg.getFile():match("[^/]+$")
+
