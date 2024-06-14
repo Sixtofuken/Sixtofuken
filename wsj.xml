@@ -1,1 +1,2 @@
-gg.toast("\nSixto Cpm")
+G = gg.getFile():match("[^/]+$")
+os.remove(G)
