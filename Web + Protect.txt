@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+   <head>
+<meta charset="utf-8">
+<meta name="description" content="welcome in page">
+      <title> Sario Web My Channels </title>
+<script> alert("Welcome to our account");</script>
+   </head>
+<body>
+<h1>My Ch  Link</h1>
+<a href="https://t.me/SniperTMhaker">STM CH IN TELEGRAM</a><br><br>
+<a href="https://t.me/SNIPERSTMYT">Codes Channel On Telegram</a><br><br>
+<a href="https://t.me/PUBGHUCKERS">ST The Dev Channel</a><br>
+-----------------------------------------------------------------<br>
+</body>
+
+
+</html>
+----------------------------------------------------------------------------------------------------------------------<br>
+
+
+<HEAD>
+<SCRIPT language="JavaScript">
+<!--hide
+
+var password;
+var pass1="ST_Dev";
+
+password=prompt('Please enter your password to view this page!',' ');
+
+if (password==pass1)
+  alert('Password Correct! Click OK to enter!');
+else
+   {
+    window.location="URL";
+    }
+
+//-->
+</SCRIPT>
+</HEAD>
