@@ -5,7 +5,7 @@ function ExitAlert($msg){
 
 $JDecode = json_decode(file_get_contents('php://input'),true);
 $FileName = "login.data";
-$ScriptName = "[Encode]Satan Version5.lua";
+$ScriptName = "Test.lua";
 $username= $JDecode["Username"];
 $password=  $JDecode["Password"];
 $content =json_decode(file_get_contents($FileName),true);
@@ -17,6 +17,6 @@ exit(file_get_contents($ScriptName));
 	}
 	
 	else{
-		ExitAlert("⚠️UserName Or Password Is Incorrect⚠️\n\n🔭Subscribe First By \n@TTTZBY");
+		ExitAlert("⚠️UserName Or Password Is Incorrect⚠️");
 		}
 ?>
