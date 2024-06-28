@@ -1,4 +1,4 @@
 A1=0x5BA3730
 A2=0x5b24454
 A3=0x5b24458
-valid_models = { "RMX3151", "MODEL2", "MODEL3" }
+LIST_KEYS = {"UP[6484"}
