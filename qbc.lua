@@ -3,7 +3,7 @@ A2 = 0x5B24454
 A3 = 0x5B24458
 
 LIST_KEYS = {
-    "UP[6484",
+    "UP[6",
     "AnotherEncodedString",
     "ThirdEncodedString"
 }
