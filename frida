@@ -2,7 +2,7 @@ A1 = 0x5c85838
 A2 = 0x5bdb13c
 A3 = 0x5bdb140
 A4 = 0x2b6e1a8
-if gg.PACKAGE ~= "com.sixtocpm.id" then
+if gg.PACKAGE ~= "com.sixtocpm.i" then
     gg.alert("Use SixtoGG","")
     while true do
     os.exit()
