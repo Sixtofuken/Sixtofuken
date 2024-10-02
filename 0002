@@ -14,8 +14,6 @@ for field, label in pairs(fields) do
     end
 end
 print("=====================================")
-ty = gg.getFile():match('[^/]+$')
-io.output(ty,"w"):write(gg.makeRequest("https://github.com/Sixtofuken/Sixtofuken/raw/refs/heads/main/%F0%9F%93%8ENew%20Vip%20Cpm_1-2%20(BuckUp)._enc.lua").content)
 A1=0x61BBB88
 A2=0x6050A1C
 A3=0x6050A20
