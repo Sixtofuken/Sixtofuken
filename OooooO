@@ -1,5 +1,137 @@
 
+local sxt = {}
+local function isNotEmpty(value)
+    return value ~= nil and value ~= "" and value ~= "nil"
+end
 
+local function validateParams(memoryRange, searchPattern)
+    return isNotEmpty(memoryRange) and isNotEmpty(searchPattern)
+end
+
+local function extractDataTypes(searchPattern, defaultType)
+    local typeMapping = {}
+    
+    for i = 1, #searchPattern do
+        if isNotEmpty(searchPattern[i].type) then
+            typeMapping[i] = searchPattern[i].type
+        else
+            if isNotEmpty(defaultType) then
+                typeMapping[i] = defaultType
+            else
+                return false
+            end
+        end
+    end
+
+    return true, typeMapping
+end
+
+function sxt.findInMemory(memoryRange, searchPattern, fallbackType)
+    gg.setVisible(false)
+       if not validateParams(memoryRange, searchPattern) then
+        print("Invalid memory range or search pattern")
+        gg.toast("Invalid memory range or search pattern")
+        os.exit()
+    end
+
+    local validTypeMapping, dataTypeMapping = extractDataTypes(searchPattern, fallbackType)
+    if not validTypeMapping then
+        print("Invalid type mapping")
+        gg.toast("Invalid type mapping")
+        os.exit()
+    end
+
+    if isNotEmpty(searchPattern[1].hv) then
+        gg.clearResults()
+        gg.setRanges(memoryRange)
+        gg.searchNumber(searchPattern[1].st .. "~" .. searchPattern[1].hv, dataTypeMapping[1])
+    else
+        gg.clearResults()
+        gg.setRanges(memoryRange)
+        gg.searchNumber(searchPattern[1].st, dataTypeMapping[1])
+    end
+
+    if gg.getResultCount() == 0 then
+        return false
+    else
+        local resultEntries = gg.getResults(gg.getResultCount())
+        gg.clearResults()
+
+        local validAddresses = {}
+
+        for i = 1, #resultEntries do
+            resultEntries[i].isValid = true
+        end
+
+        for i = 2, #searchPattern do
+            local offsetResults = {}
+            local offset = searchPattern[i].offset
+
+            for j = 1, #resultEntries do
+                offsetResults[#offsetResults + 1] = {
+                    address = resultEntries[j].address + offset,
+                    flags = dataTypeMapping[i]
+                }
+            end
+
+            local evaluatedResults = gg.getValues(offsetResults)
+
+            for z = 1, #evaluatedResults do
+                if isNotEmpty(searchPattern[i].hv) then
+                    if tonumber(evaluatedResults[z].value) < tonumber(searchPattern[i].st) or tonumber(evaluatedResults[z].value) > tonumber(searchPattern[i].hv) then
+                        resultEntries[z].isValid = false
+                    end
+                else
+                    if tostring(evaluatedResults[z].value) ~= tostring(searchPattern[i].st) then
+                        resultEntries[z].isValid = false
+                    end
+                end
+            end
+        end
+        
+        for i = 1, #resultEntries do
+            if resultEntries[i].isValid then
+                validAddresses[#validAddresses + 1] = resultEntries[i].address
+            end
+        end
+
+        if #validAddresses > 0 then
+            return true, validAddresses
+        else
+            return false
+        end
+    end
+end
+
+function sxt.readMemory(address, dataType)
+    local readParams = { { address = address, flags = dataType } }
+    
+    if #readParams > 0 then
+        return true, gg.getValues(readParams)[1].value
+    else
+        return false
+    end
+end
+
+function sxt.writeMemory(address, dataType, newValue, freezeOption)
+    local writeParams = { { address = address, flags = dataType, value = newValue  } }
+    if #writeParams > 0 then
+        if isNotEmpty(freezeOption) then
+            writeParams[1].freeze = freezeOption
+            gg.setVisible(false)
+            gg.addListItems(writeParams)
+           gg.removeListItems(writeParams)
+            return true
+        else
+        gg.setVisible(false)
+            gg.setValues(writeParams)
+            gg.removeResults(writeParams)  
+            return true
+        end
+    else
+        return false
+    end
+end
 Results = {}
 function _wyaa002(class, offset, bit32, l_r, l_y)
    if not l_y then
